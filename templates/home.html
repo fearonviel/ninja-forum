@@ -9,4 +9,10 @@
         <p>Welcome to Ninja Tech Forum - the best forum for tech fans. Coming soon!</p>
     </div>
 
+    {% if user %}
+    <p>Hi, {{ user.email() }}</p>
+
+    {% endif %}
+
+
 {% endblock content %}
