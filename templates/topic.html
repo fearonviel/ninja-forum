@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Topic - {{ topic.title }} {% endblock title %}
+
+{%block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{{ topic.title }}</h2>
+        </div>
+        <div class="panel-body">
+            <p>Posted by {{ topic.user_email }}<br>{{ topic.created_at.strftime('%d. %m. %Y, %H:%M') }}</p>
+            <hr>
+            <p>{{ topic.content }}</p>
+        </div>
+    </div>
+
+{%endblock content %}

@@ -19,5 +19,11 @@ class TopicAddHandler(BaseHandler):
         new_topic = Topic(title=title, content=text, user_email=user.email())
         new_topic.put()
 
-        return self.write("Successful.")
+        return self.redirect_to("topic-details", topic_id=new_topic.key.id())
 
+
+class TopicHandler(BaseHandler):
+    def get(self, topic_id):
+        topic = Topic.get_by_id(int(topic_id))
+        params = {"topic": topic}
+        return self.render_template("topic.html", params=params)

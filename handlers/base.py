@@ -2,6 +2,7 @@ import webapp2
 import os
 import jinja2
 from google.appengine.api import users
+from models.topic import Topic
 
 template_dir = os.path.join(os.path.dirname(__file__), "../templates")
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape=False)
@@ -43,8 +44,10 @@ class BaseHandler(webapp2.RequestHandler):
 
 class MainHandler(BaseHandler):
     def get(self):
+        topics = Topic.query(Topic.deleted == False).order(-Topic.created_at).fetch()
+        params = {"topics": topics}
 
-        return self.render_template("home.html")
+        return self.render_template("home.html", params=params)
 
 
 class CookieHandler(BaseHandler):
