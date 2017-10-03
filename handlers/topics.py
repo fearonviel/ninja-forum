@@ -1,20 +1,21 @@
-from handlers.base import BaseHandler
+import cgi
 from google.appengine.api import users
+from handlers.base import BaseHandler
 from models.topic import Topic
+from models.comment import Comment
+from utils.decorators import validate_csrf
 
 
 class TopicAddHandler(BaseHandler):
     def get(self):
-        return self.render_template("topic_add.html")
+        return self.render_template_with_csrf("topic_add.html")
 
+    @validate_csrf
     def post(self):
         user = users.get_current_user()
 
-        if not user:
-            return self.write("Please login to add a new topic.")
-
-        title = self.request.get("title")
-        text = self.request.get("text")
+        title = cgi.escape(self.request.get("title"))
+        text = cgi.escape(self.request.get("text"))
 
         new_topic = Topic(title=title, content=text, user_email=user.email())
         new_topic.put()
@@ -25,5 +26,8 @@ class TopicAddHandler(BaseHandler):
 class TopicHandler(BaseHandler):
     def get(self, topic_id):
         topic = Topic.get_by_id(int(topic_id))
-        params = {"topic": topic}
-        return self.render_template("topic.html", params=params)
+        comments = Comment.query(Comment.topic_id == topic.key.id(), Comment.deleted == False).order(-Comment.created_at).fetch()
+
+        params = {"topic": topic, "comments": comments}
+
+        return self.render_template_with_csrf("topic.html", params=params)

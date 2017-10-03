@@ -30,6 +30,11 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav navbar-right">
+                      <li><a name="#">
+                          {% if user %}
+                          Hi, {{ user.email() }}
+                          {% endif %}</a>
+                      </li>
                       <li><a href="/topic/add">Add new topic</a></li>
                       {% if user %}
                       <li><a href="{{ logout_url}}">Logout</a></li>
@@ -46,9 +51,10 @@
 
         {% if not piskotek %}
 
-        <div class="alert alert-danger">
+        <div class="alert alert-danger col-md-3">
             Se strinjate s piškotki?
             <form action="/set-cookie" method="post">
+                <br>
                 <button class="btn btn-success">Da</button>
             </form>
         </div>

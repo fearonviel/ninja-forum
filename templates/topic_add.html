@@ -3,22 +3,31 @@
 {% block title %}Add new topic{% endblock title %}
 
 {%block content %}
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
-            <div class="form-group">
-                <label>Title</label>
-                <input name="title" type="text" class="form-control" rows="6" required>
-            </div>
 
-            <div class="form-group">
-                <label>Text</label>
-                <textarea name="text" class="form-control" rows="6" required></textarea>
-            </div>
+{% if user %}
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Add new topic</h3>
+            <hr>
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-            <button type="submit" class="btn btn-success">Submit</button>
-        </form>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input name="title" type="text" class="form-control" rows="6" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Text</label>
+                    <textarea name="text" class="form-control" rows="6" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
     </div>
-</div>
+{% else %}
+    <p>Please login to add a new topic.</p>
+{% endif %}
 
 {%endblock content %}
