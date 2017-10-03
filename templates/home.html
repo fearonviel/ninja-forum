@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Doma {% endblock %}
+{% block title %} Home {% endblock %}
 
 {% block content %}
 
@@ -24,7 +24,7 @@
             {% for topic in topics %}
 
                 <tr>
-                    <td><a class="link-not-blue" href="/topic/{{ topic.key.id() }}"><strong>{{ topic.title }}</strong></a></td>
+                    <td><a href="/topic/{{ topic.key.id() }}"><strong>{{ topic.title }}</strong></a></td>
                     <td>{{ topic.user_email }}</td>
                     <td>{{ topic.created_at.strftime('%d. %m. %Y, %H:%M') }}</td>
                 </tr>
