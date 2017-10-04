@@ -34,13 +34,17 @@
         </div>
     </div>
 
+    {% else %}
+
+        Please <a href="{{ login_url}}">sign in</a> to comment.
+
     {% endif %}
 
     <br>
     <br>
     {% for comment in comments %}
 
-    <div class="panel panel-warning">
+    <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title">{{ comment.topic_title }}</h2>
         </div>
