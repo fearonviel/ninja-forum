@@ -1,5 +1,5 @@
 from google.appengine.ext import ndb
-from google.appengine.api import users
+from google.appengine.api import users, mail, taskqueue
 
 from models.topic import Topic
 
@@ -22,4 +22,13 @@ class Comment(ndb.Model):
                               topic_title=topic.title)
         new_comment.put()
 
+        params = {"email": topic.user_email, "topic_title": topic.title, "topic_id": topic.key.id()}
+
+        taskqueue.add(url="/task/email-topic-author", params=params)
+
+
+
+#""" dovolijo, da se v stringu uporabijo nove vrstice in razmaki
+
 #comment = Comment.create_comment() - na tak nacin se klice funkcija ki je znotraj class, Comment damo brez oklepajev.
+
