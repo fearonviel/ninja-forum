@@ -18,3 +18,11 @@ class CommentHandler(BaseHandler):
         return self.redirect_to("topic-details", topic_id=topic.key.id())
 
 
+class UserCommentsHandler(BaseHandler):
+    def get(self):
+        user = users.get_current_user()
+
+        comments = Comment.query(Comment.user_email == user.email()).fetch()
+        params = {"comments": comments}
+
+        return self.render_template("user-comments", params=params)

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}User comments{% endblock title %}
+
+{% block content %}
+
+    {% for comment in comments %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{{ comment.topic_title }}</h2>
+        </div>
+        <div class="panel-body">
+            <p>Posted by {{ comment.user_email }}<br>{{ comment.created_at.strftime('%d. %m. %Y, %H:%M') }}</p>
+            <hr>
+            <p>{{ comment.content }}</p>
+        </div>
+    </div>
+
+    {% endfor %}
+
+{% endblock content %}
