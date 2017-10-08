@@ -31,3 +31,12 @@ class TopicHandler(BaseHandler):
         params = {"topic": topic, "comments": comments}
 
         return self.render_template_with_csrf("topic.html", params=params)
+
+
+class DeleteTopicHandler(BaseHandler):
+    def post(self, topic_id):
+        user = users.get_current_user()
+        topic = Topic.get_by_id(int(topic_id))
+        if users.is_current_user_admin() or user.email() == topic.user_email:
+            Topic.delete(topic)
+        return self.redirect_to("main-page")

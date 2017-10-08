@@ -12,7 +12,19 @@
             <hr>
             <p>{{ topic.content }}</p>
         </div>
+
+    {% if user %}
+        {% if topic.user_email == user.email() or user.admin %}
+            <div class="panel-body">
+                <form action="/topic/{{ topic.key.id() }}/delete" method="post">
+                    <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                    <button class="btn btn-default" type="submit">Delete</button>
+                </form>
+            </div>
+        {% endif %}
+    {% endif %}
     </div>
+
 
     {% if user %}
 

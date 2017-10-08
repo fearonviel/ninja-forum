@@ -9,3 +9,10 @@ class Topic(ndb.Model):
     updated_at = ndb.DateTimeProperty(auto_now=True)
     deleted = ndb.BooleanProperty(default=False)
 
+    @staticmethod
+    def delete(topic):
+        topic.deleted = True
+        topic.put()
+
+        return topic
+
