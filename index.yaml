@@ -23,6 +23,13 @@ indexes:
   - name: created_at
     direction: desc
 
+- kind: Comment
+  properties:
+  - name: deleted
+  - name: user_email
+  - name: created_at
+    direction: desc
+
 - kind: Topic
   properties:
   - name: deleted

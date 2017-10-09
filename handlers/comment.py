@@ -22,7 +22,7 @@ class UserCommentsHandler(BaseHandler):
     def get(self):
         user = users.get_current_user()
 
-        comments = Comment.query(Comment.user_email == user.email()).fetch()
+        comments = Comment.query(Comment.user_email == user.email(), Comment.deleted == False,).order(-Comment.created_at).fetch()
         params = {"comments": comments}
 
-        return self.render_template("user-comments", params=params)
+        return self.render_template("user_comments.html", params=params)
