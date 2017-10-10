@@ -13,6 +13,11 @@ indexes:
 - kind: Comment
   properties:
   - name: deleted
+  - name: updated_at
+
+- kind: Comment
+  properties:
+  - name: deleted
   - name: created_at
     direction: desc
 
@@ -29,6 +34,11 @@ indexes:
   - name: user_email
   - name: created_at
     direction: desc
+
+- kind: Topic
+  properties:
+  - name: deleted
+  - name: created_at
 
 - kind: Topic
   properties:

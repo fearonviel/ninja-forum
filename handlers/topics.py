@@ -34,6 +34,7 @@ class TopicHandler(BaseHandler):
 
 
 class DeleteTopicHandler(BaseHandler):
+    @validate_csrf
     def post(self, topic_id):
         user = users.get_current_user()
         topic = Topic.get_by_id(int(topic_id))

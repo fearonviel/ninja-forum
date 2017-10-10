@@ -16,10 +16,24 @@
     {% if user %}
         {% if topic.user_email == user.email() or user.admin %}
             <div class="panel-body">
-                <form action="/topic/{{ topic.key.id() }}/delete" method="post">
-                    <input type="hidden" name="csrf_token" value="{{csrf_token}}">
-                    <button class="btn btn-default" type="submit">Delete</button>
-                </form>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Delete</button>
+
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <p>Do you really want to delete this topic?</p>
+                      </div>
+                      <div class="modal-footer">
+                          <form action="/topic/{{ topic.key.id() }}/delete" method="post">
+                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                            <button class="btn btn-default" type="submit">Yes</button>
+                        </form>
+                      </div>
+                    </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
             </div>
         {% endif %}
     {% endif %}
@@ -36,8 +50,6 @@
                     <div class="form-group">
                         <label>Add comment</label>
                         <textarea name="content" class="form-control" rows="3" required></textarea>
-                        <!--<input type="hidden" name="topic-id" value="{{ topic.id }}">-->
-                        <!--<input type="hidden" name="topic-title" value="{{ topic.title }}">-->
                     </div>
 
                     <button type="submit" class="btn btn-success">Submit</button>
@@ -56,16 +68,40 @@
     <br>
     {% for comment in comments %}
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h2 class="panel-title">{{ comment.topic_title }}</h2>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">{{ comment.topic_title }}</h2>
+            </div>
+            <div class="panel-body">
+                <p>Posted by {{ comment.user_email }}<br>{{ comment.created_at.strftime('%d. %m. %Y, %H:%M') }}</p>
+                <hr>
+                <p>{{ comment.content }}</p>
+            </div>
+            <form method="post" action="/comment/{{comment.key.id()}}/delete">
+                <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                {% if user %}
+                    {% if comment.user_email == user.email() or user.admin %}
+                    <div class="panel-body">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Delete</button>
+
+                            <div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-body">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <p>Do you really want to delete this comment?</p>
+                                  </div>
+                                  <div class="modal-footer">
+                                        <button class="btn btn-default" type="submit">Yes</button>
+                                  </div>
+                                </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </form>
         </div>
-        <div class="panel-body">
-            <p>Posted by {{ comment.user_email }}<br>{{ comment.created_at.strftime('%d. %m. %Y, %H:%M') }}</p>
-            <hr>
-            <p>{{ comment.content }}</p>
-        </div>
-    </div>
 
     {% endfor %}
 

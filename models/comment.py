@@ -26,6 +26,13 @@ class Comment(ndb.Model):
 
         taskqueue.add(url="/task/email-topic-author", params=params)
 
+    @staticmethod
+    def delete(comment):
+        comment.deleted = True
+        comment.put()
+
+        return comment
+
 
 
 #""" dovolijo, da se v stringu uporabijo nove vrstice in razmaki

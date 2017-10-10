@@ -8,7 +8,7 @@ class DeleteTopicsCron(BaseHandler):
     def get(self):
         month_ago = datetime.now() - timedelta(days=30)
         deleted_topics = Topic.query(Topic.deleted == True,
-                                     Topic.created_at <= month_ago).fetch()
+                                     Topic.updated_at <= month_ago).fetch()
         for topic in deleted_topics:
             comments = Comment.query(Comment.topic_id == topic.key.id()).fetch()
             for comment in comments:

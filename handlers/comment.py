@@ -26,3 +26,15 @@ class UserCommentsHandler(BaseHandler):
         params = {"comments": comments}
 
         return self.render_template("user_comments.html", params=params)
+
+
+class DeleteCommentHandler(BaseHandler):
+    @validate_csrf
+    def post(self, comment_id):
+        user = users.get_current_user()
+        comment = Comment.get_by_id(int(comment_id))
+
+        if users.is_current_user_admin() or user.email() == comment.user_email:
+            Comment.delete(comment)
+
+        return self.redirect_to("main-page")
