@@ -3,15 +3,18 @@ import unittest
 import webapp2
 import webtest
 
+from google.appengine.api import memcache
 from google.appengine.ext import testbed
-from main import MainHandler
+
+from handlers.base import MainHandler, CookieHandler
 
 
-class MainPageTests(unittest.TestCase):
+class CookieTests(unittest.TestCase):
     def setUp(self):
         app = webapp2.WSGIApplication(
             [
                 webapp2.Route('/', MainHandler, name="main-page"),
+                webapp2.Route('/set-cookie', CookieHandler),
             ])
 
         self.testapp = webtest.TestApp(app)
@@ -33,10 +36,8 @@ class MainPageTests(unittest.TestCase):
     def tearDown(self):
         self.testbed.deactivate()
 
-    def test_main_page_handler(self):
-        response = self.testapp.get('/')  # get main handler
-        self.assertEqual(response.status_int, 200)  # if GET request was ok, it should return 200 status code
+    def test_set_cookie_handler(self):
+        response = self.testapp.post('/set-cookie')
+        self.assertEqual(response.status_int, 302)
 
-    def test_main_contains_proper_text(self):
-        response = self.testapp.get('/')
-        self.assertNotIn("Doma", response.body)
+

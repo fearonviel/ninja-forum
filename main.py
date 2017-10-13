@@ -13,8 +13,9 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/set-cookie', CookieHandler),
     webapp2.Route('/topic/add', TopicAddHandler, name="topic-add"),
     webapp2.Route('/topic/<topic_id:\d+>', TopicHandler, name="topic-details"),
-    webapp2.Route('/topic/<topic_id:\d+>/comment/add', CommentHandler),
     webapp2.Route('/topic/<topic_id:\d+>/delete', DeleteTopicHandler),
+
+    webapp2.Route('/topic/<topic_id:\d+>/comment/add', CommentHandler),
     webapp2.Route('/user-comments', UserCommentsHandler, name="user-comments"),
     webapp2.Route('/comment/<comment_id:\d+>/delete', DeleteCommentHandler),
 
