@@ -22,12 +22,42 @@
                     <textarea name="text" class="form-control" rows="6" required></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-success">Submit</button>
+                <div class="form-group">
+                    <label>What is the sum of numbers <div id="firstNum"></div> and <div id="secondNum"></div>?</label>
+                    <input id="sum" type="text" class="form-control" rows="6" required>
+                </div>
+
+                <button id="submit-button" type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>
     </div>
 {% else %}
-    <p>Please login to add a new topic.</p>
+    <p>Please <a href="{{ login_url}}">login</a> to add a new topic.</p>
 {% endif %}
 
 {%endblock content %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            let num1 = Math.floor(Math.random() * 10);
+            $("#firstNum").text(num1);
+
+            let num2 = Math.floor(Math.random() * 10);
+            $("#secondNum").text(num2);
+
+            let sum = $("#sum").val();
+            let realSum = num1 + num2;
+            console.log(realSum);
+
+            $("#submit-button").click(function (event) {
+                if (sum === realSum.toString()) {
+                    $(this).prop("disabled", true);
+                } else {
+                    alert("You've entered the wrong sum.");
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+{% endblock %}

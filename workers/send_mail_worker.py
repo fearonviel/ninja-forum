@@ -2,7 +2,7 @@ from handlers.base import BaseHandler
 from google.appengine.api import mail
 
 
-class SendMailWorker(BaseHandler):
+class SendMailCommentWorker(BaseHandler):
     def post(self):
 
         email = self.request.get("email")
