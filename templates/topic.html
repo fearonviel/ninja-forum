@@ -14,28 +14,38 @@
         </div>
 
     {% if user %}
-        {% if topic.user_email == user.email() or user.admin %}
-            <div class="panel-body">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Delete</button>
+        <div class="panel-body">
+            <div class="row">
+                {% if topic.user_email == user.email() or user.admin %}
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Delete</button>
 
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <p>Do you really want to delete this topic?</p>
-                      </div>
-                      <div class="modal-footer">
-                          <form action="/topic/{{ topic.key.id() }}/delete" method="post">
-                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
-                            <button class="btn btn-default" type="submit">Yes</button>
-                        </form>
-                      </div>
-                    </div><!-- /.modal-content -->
-                  </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-body">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <p>Do you really want to delete this topic?</p>
+                              </div>
+                              <div class="modal-footer">
+                                  <form action="/topic/{{ topic.key.id() }}/delete" method="post">
+                                    <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                    <button class="btn btn-default" type="submit">Yes</button>
+                                </form>
+                              </div>
+                            </div><!-- /.modal-content -->
+                          </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                    </div>
+                {% endif %}
+                <div class="col-sm-1">
+                    <form action="/topic/{{topic.key.id() }}/subscribe" method="post">
+                        <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                        <button type="submit" class="btn btn-default">Subscribe to this topic</button>
+                    </form>
+                </div>
             </div>
-        {% endif %}
+        </div>
     {% endif %}
     </div>
 

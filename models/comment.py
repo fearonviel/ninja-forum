@@ -22,9 +22,9 @@ class Comment(ndb.Model):
                               topic_title=topic.title)
         new_comment.put()
 
-        params = {"email": topic.user_email, "topic_title": topic.title, "topic_id": topic.key.id()}
+        params = {"author_email": topic.user_email, "topic_title": topic.title, "topic_id": topic.key.id()}
 
-        taskqueue.add(url="/task/email-topic-author", params=params)
+        taskqueue.add(url="/task/email-subscribers", params=params)
 
     @staticmethod
     def delete(comment):

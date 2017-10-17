@@ -3,6 +3,7 @@ from google.appengine.api import users
 from handlers.base import BaseHandler
 from models.topic import Topic
 from models.comment import Comment
+from models.subscription import Subscription
 from utils.decorators import validate_csrf
 
 
@@ -41,3 +42,16 @@ class DeleteTopicHandler(BaseHandler):
         if users.is_current_user_admin() or user.email() == topic.user_email:
             Topic.delete(topic)
         return self.redirect_to("main-page")
+
+
+class SubscribeToTopicHandler(BaseHandler):
+    @validate_csrf
+    def post(self, topic_id):
+        user = users.get_current_user()
+        topic = Topic.get_by_id(int(topic_id))
+
+        new_subscription = Subscription(email=user.email(), topic_id=topic.key.id())
+        # subscriptions = Subscription.query().fetch()
+        new_subscription.put()
+
+        return self.redirect_to("topic-details", topic_id=topic.key.id())
