@@ -40,22 +40,26 @@
 {% block script %}
     <script>
         $(document).ready(function () {
-            let num1 = 1 + Math.floor(Math.random() * 10);
+            let num1 = Math.floor(Math.random() * 10);
             $("#firstNum").text(num1);
 
-            let num2 = 1 + Math.floor(Math.random() * 10);
+            let num2 = Math.floor(Math.random() * 10);
             $("#secondNum").text(num2);
 
-            let sum = $("#sum").val();
             let realSum = num1 + num2;
-            console.log(realSum);
 
             $("#submit-button").click(function (event) {
-                if (sum === realSum.toString()) {
+                if ($("#sum").val() === realSum.toString()) {
                     $(this).prop("disabled", true);
+                    console.log("right");
+                    console.log(realSum.toString());
+                    console.log(sum);
                 } else {
                     alert("You've entered the wrong sum.");
                     event.preventDefault();
+                    console.log("Wrong");
+                    console.log(realSum.toString());
+                    console.log(sum);
                 }
             });
         });
