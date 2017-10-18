@@ -75,7 +75,7 @@ class MainHandler(BaseHandler):
         topics = Topic.query(Topic.deleted == False).order(-Topic.created_at).fetch()
         params = {"topics": topics}
 
-        return self.render_template("home.html", params=params)
+        return self.render_template_with_csrf("home.html", params=params)
 
 
 class CookieHandler(BaseHandler):

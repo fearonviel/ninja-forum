@@ -30,11 +30,12 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav navbar-right">
-                      <li><a href="/user-comments">
+                      <li><a href="#">
                           {% if user %}
                           Hi, {{ user.email() }}
                           {% endif %}</a>
                       </li>
+                      <li><a href="/user-comments">See your comments</a></li>
                       <li><a href="/topic/add">Add new topic</a></li>
                       {% if user %}
                       <li><a href="{{ logout_url}}">Logout</a></li>

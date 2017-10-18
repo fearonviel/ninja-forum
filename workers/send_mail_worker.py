@@ -13,13 +13,14 @@ class SendMailCommentWorker(BaseHandler):
         topic = Topic.get_by_id(int(topic_id))
 
         mail.send_mail(sender="staramarsa@gmail.com", to=author_email, subject="New comment",
-                       body=""""Tvoja tema {0} ima nov komentar.
+                       body="""Tvoja tema {0} ima nov komentar.
 <a href="http://ninjatechforum.appspot.com/topic/{1}">{0}</a>""".format(topic_title, topic_id))
 
         subscriptions = Subscription.query(Subscription.topic_id == topic.key.id()).fetch()
 
         for subscription in subscriptions:
-            mail.send_mail(sender="staramarsa@gmail.com", to=subscription.email, subject="New comment 2",
-                           body=""""Tema {0} ima nov komentar.
+            mail.send_mail(sender="staramarsa@gmail.com", to=subscription.email, subject="New comment",
+                           body="""Tema {0} ima nov komentar.
 <a href="http://ninjatechforum.appspot.com/topic/{1}">{0}</a>""".format(topic_title, topic_id))
+
 
