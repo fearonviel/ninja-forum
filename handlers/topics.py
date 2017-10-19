@@ -55,3 +55,13 @@ class SubscribeToTopicHandler(BaseHandler):
         new_subscription.put()
 
         return self.redirect_to("topic-details", topic_id=topic.key.id())
+
+
+class TopicCommentsCounterHandler(BaseHandler):
+    def get(self, topic_id):
+        topic = Topic.get_by_id(int(topic_id))
+
+        comments = Comment.query(Comment.topic_id == topic.key.id()).count()
+
+        return self.write(comments)
+

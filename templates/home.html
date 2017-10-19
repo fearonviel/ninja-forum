@@ -24,8 +24,9 @@
         <thead>
             <tr>
                 <th class="col-md-6">Topic</th>
-                <th class="col-md-3">Posted by</th>
-                <th class="col-md-3">Posted on</th>
+                <!-- <th class="col-md-2"></th> -->
+                <th class="col-md-2">Posted by</th>
+                <th class="col-md-2">Posted on</th>
             </tr>
         </thead>
         <tbody class="table-align">
@@ -33,7 +34,7 @@
             {% for topic in topics %}
 
                 <tr class="topic-row" data-href="/topic/{{ topic.key.id() }}">
-                    <td><strong>{{ topic.title }}</strong></td>
+                    <td class="topicTitle"><strong>{{ topic.title }}</strong></td>
                     <td>{{ topic.user_email }}</td>
                     <td>{{ topic.created_at.strftime('%d. %m. %Y, %H:%M') }}</td>
                 </tr>
@@ -50,17 +51,23 @@
 {% block script %}
   <script>
     $(document).ready(function() {
-      $("h1").mouseover(function() {
-        $("h1").css("font-weight", "bold");
-        });
-
-      $("h1").mouseout(function() {
-        $("h1").css("font-weight", "normal");
-      });
 
       $(".topic-row").click(function() {
         window.location = $(this).data("href");
       });
+
+      $(".topic-row").hover(function() {
+        let currentTopicRow = $(this);
+        $(this).css('cursor', 'pointer');
+
+        let topicUrl = $(this).data("href")+"/comments-count";
+
+        $.get(topicUrl, function (data) {
+          $(currentTopicRow).find(".topicTitle").append( "<span> Comments: " + data + "</span>");
+          });
+        }, function () {
+          $(this).find("span:last").remove();
+        });
     });
   </script>
 {% endblock %}
