@@ -61,7 +61,7 @@ class TopicCommentsCounterHandler(BaseHandler):
     def get(self, topic_id):
         topic = Topic.get_by_id(int(topic_id))
 
-        comments = Comment.query(Comment.topic_id == topic.key.id()).count()
+        comments = Comment.query(Comment.topic_id == topic.key.id(), Comment.deleted == False).count()
 
         return self.write(comments)
 
